@@ -59,4 +59,24 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-// cubits folder contains all the common cubits across all the features in our app
+// cubits folder contains all the common cubits across all the features in our app,
+
+
+/*
+
+@ the state in BlocSelector<AppUserCubit, AppUserState, bool>
+  is an instance of a class that extends AppUserState.
+@ When you check state is AppUserLoggedIn, it means the current state is of type AppUserLoggedIn,
+  which contains a User object (the logged-in user's data).
+
+What does it mean?
+
+@ If state is AppUserLoggedIn is true, the user is logged in and their data
+  is available in state.user.
+@ If false, the user is not logged in (could be AppUserInitial or other states).
+
+@ Can a state represent multiple states at the same time?
+  No, a Cubit/Bloc can only have one active state at a time.
+
+
+*/
