@@ -13,6 +13,10 @@ void main() async {
   await initDependencies();
 
   runApp(
+    /*
+      @ Registers multiple BLoCs/Cubits at once into the widget tree.
+      @ So you can access AppUserCubit and AuthBloc from any widget.
+    */
     MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => serviceLocator<AppUserCubit>()),

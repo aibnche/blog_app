@@ -9,6 +9,14 @@ part 'app_user_state.dart';
     so we can have multiple states,
     like initial, logged in, logged out, etc. */
 
+
+/*
+  @ Purpose: Holds the global user state — mainly whether the user is logged in or not.
+
+  @ Output: Emits states like AppUserLoggedIn(user) or AppUserInitial().
+
+  @ Used by UI: The UI (MyApp) listens to this cubit to decide which screen to show: BlogPage or SignInPage.
+ */
 class AppUserCubit extends Cubit<AppUserState> {
   AppUserCubit() : super(AppUserInitial());
 
