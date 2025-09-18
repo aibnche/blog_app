@@ -13,6 +13,12 @@ class AuthRepositoryImpl implements AuthRepository{
 
   AuthRepositoryImpl({ required this.remoteDataResource});
 
+  /*
+    @ Future is used for asynchronous operations that will complete at some point in the future
+    
+    @ Either is a type that can hold one of two possible values,
+      typically representing success (Right) or failure (Left).
+  */
   @override
   Future<Either<Failure, User>> singUpWithEmailAndPassword({
     required String name,

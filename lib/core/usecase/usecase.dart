@@ -6,6 +6,10 @@ import 'package:fpdart/fpdart.dart';
 /*
   @ Any use case must implement a call() method that takes some input (Params)
     and returns a Future<Type>
+
+
+  @ In Dart, if a class implements a call() method, its instances can be invoked like a function.
+
 */
 
 abstract interface class UseCase<SuccessType, Params> {
