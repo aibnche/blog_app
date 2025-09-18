@@ -10,6 +10,17 @@ import 'package:blog/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+
+/*
+
+  @ When you register something with registerLazySingleton or registerFactory, it does not resolve the dependencies immediately.
+    Instead, it stores the factory (or the singleton instance once created) for later.
+
+  @ GetIt resolve all dependencies when "BlocProvider" actually requests serviceLocator<AuthBloc>(),
+    by that time "AppUserCubit" has already been registered
+
+  @ that what explain the behavior of registering "AuthBloc" before "AppUserCubit"
+ */
 final serviceLocator = GetIt.instance;
 
 Future<void> initDependencies() async {
@@ -30,7 +41,7 @@ void _initAuth() {
   // Data source
   serviceLocator.registerFactory<AuthRemoteDataSource>( 
     () => AuthRemoteDataSourceImpl(
-      supabaseClient: serviceLocator()
+      supabaseClient: serviceLocator() // References supabase.client
     )
   );
 

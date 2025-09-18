@@ -14,6 +14,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 part 'auth_event.dart';
 part 'auth_state.dart';
 
+
+/*
+  @ Purpose: Handles authentication logic, e.g.:
+      + Signing in
+      + Signing up
+      + Checking if the user is already logged in
+      + Consumes use cases like CurrentUser, UserSignIn, etc.
+      + Controls flow of auth-related events.
+*/
+
+
 // AuthBloc class that extends Bloc and manages authentication events and states
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final UserSignUp _userSignUp;

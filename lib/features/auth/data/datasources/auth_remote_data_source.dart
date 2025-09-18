@@ -25,6 +25,13 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   AuthRemoteDataSourceImpl({ required this.supabaseClient});
 
+  /*
+      @ This getter provides access to the current user's authentication session, which contains:
+        - User information
+        - Access tokens
+        - Session expiry details
+        - Authentication state
+  */
   @override
   Session? get currentUserSession => supabaseClient.auth.currentSession;
 

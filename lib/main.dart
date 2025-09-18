@@ -19,7 +19,7 @@ void main() async {
     */
     MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => serviceLocator<AppUserCubit>()),
+        BlocProvider(create: (_) => serviceLocator<AppUserCubit>()), // <- THEN instantiation happens
         BlocProvider(create: (_) => serviceLocator<AuthBloc>()),
       ],
       child: const MyApp(),
@@ -40,6 +40,11 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     // Check if user is logged in when the app starts
     context.read<AuthBloc>().add(AuthIsUserLoggedIn());
+    /**
+     * @  initState(): This runs when the app starts to automatically,
+     *    check if the user is already logged in from a previous session,
+     *    so the app can navigate to the appropriate screen (BlogPage vs SignInPage).
+     */
   }
 
   @override
@@ -73,7 +78,7 @@ class _MyAppState extends State<MyApp> {
 @ When you check state is AppUserLoggedIn, it means the current state is of type AppUserLoggedIn,
   which contains a User object (the logged-in user's data).
 
-What does it mean?
+What does it mean ?
 
 @ If state is AppUserLoggedIn is true, the user is logged in and their data
   is available in state.user.
