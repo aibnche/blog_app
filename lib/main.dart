@@ -59,10 +59,15 @@ class _MyAppState extends State<MyApp> {
       title: 'Blog App',
       theme: AppTheme.darkThemeMode,
       /*
-        @ The BlocSelector is reactive - it automatically rebuilds whenever the cubit's state changes,
-          so it always knows the current state.
+        @ The BlocSelector automatically knows the current state because it listens to the AppUserCubit. Here's how:
 
-        @ Listens to AppUserCubit and selects whether the user is logged in (true/false).
+            1- Initial State: When "AppUserCubit" is created, it starts with "AppUserInitial()"
+              < AppUserCubit() : super(AppUserInitial()); />
+
+            2- State Changes: When the cubit emits a new state (like "emit(AppUserLoggedIn(user))" ),
+              "BlocSelector" automatically receives the new state.
+
+            3- Selector Function: The selector function runs every time the state changes
       */
       home: BlocSelector<AppUserCubit, AppUserState, bool>(
         selector: (state) {
@@ -99,4 +104,17 @@ What does it mean ?
   No, a Cubit/Bloc can only have one active state at a time.
 
 
+*/
+
+
+
+
+/*
+  @ Initial State: When "AppUserCubit" is created, it starts with "AppUserInitial()"
+    < AppUserCubit() : super(AppUserInitial()); />
+
+  @ State Changes: When the cubit emits a new state (like "emit(AppUserLoggedIn(user))" ),
+    "BlocSelector" automatically receives the new state.
+
+  @ Selector Function: The selector function runs every time the state changes:
 */
