@@ -33,6 +33,10 @@ class _SignInPageState extends State<SignInPage> {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(20),
+        /*
+          @ Used to listen for state changes and rebuild UI based on the new state.
+          @ Combines BlocListener and BlocBuilder into a single widget.
+        */
         child: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
             if (state is AuthFailure) {
@@ -64,6 +68,10 @@ class _SignInPageState extends State<SignInPage> {
                     textVal: 'Sign In',
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
+                        /*
+                          @ Used to access a Bloc or Cubit without listening for state changes.
+                          @ Not rebuild the widget on state changes.
+                        */
                         context.read<AuthBloc>().add(
                           AuthSignIn(
                             email: emailController.text.trim(),

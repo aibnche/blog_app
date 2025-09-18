@@ -19,6 +19,10 @@ void main() async {
     */
     MultiBlocProvider(
       providers: [
+        /*
+          @ BlocProvider is a Widget from the flutter_bloc package.
+            It uses the Provider pattern to make a Bloc or Cubit available to all descendant widgets.
+        */
         BlocProvider(create: (_) => serviceLocator<AppUserCubit>()), // <- THEN instantiation happens
         BlocProvider(create: (_) => serviceLocator<AuthBloc>()),
       ],
@@ -41,8 +45,12 @@ class _MyAppState extends State<MyApp> {
     // Check if user is logged in when the app starts
 
     /*
-      @  read, gets the AuthBloc instance that is fully constructed with all the needed properties.
-      @  add, Adds an event to the AuthBloc
+      context.read<T>() :
+          @ Used to access a Bloc or Cubit without listening for state changes.
+          @ Not rebuild the widget on state changes.
+          
+          @ read, gets the AuthBloc instance that is fully constructed with all the needed properties.
+          @ add, Adds an event to the AuthBloc
     */
     context.read<AuthBloc>().add(AuthIsUserLoggedIn());
     /**

@@ -4,6 +4,11 @@ import 'package:blog/core/common/entities/user.dart';
 import 'package:blog/features/auth/domain/repository/auth_repository.dart';
 import 'package:fpdart/fpdart.dart';
 
+
+/*
+  @ In Dart, if a class implements a call() method, its instances can be invoked like a function.
+*/
+
 class UserSignIn implements UseCase<User, UserSignInParams>{
   final AuthRepository authRepository;
   const UserSignIn({required this.authRepository});
