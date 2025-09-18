@@ -39,6 +39,11 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     // Check if user is logged in when the app starts
+
+    /*
+      @  read, gets the AuthBloc instance that is fully constructed with all the needed properties.
+      @  add, Adds an event to the AuthBloc
+    */
     context.read<AuthBloc>().add(AuthIsUserLoggedIn());
     /**
      * @  initState(): This runs when the app starts to automatically,
@@ -53,6 +58,12 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: 'Blog App',
       theme: AppTheme.darkThemeMode,
+      /*
+        @ The BlocSelector is reactive - it automatically rebuilds whenever the cubit's state changes,
+          so it always knows the current state.
+
+        @ Listens to AppUserCubit and selects whether the user is logged in (true/false).
+      */
       home: BlocSelector<AppUserCubit, AppUserState, bool>(
         selector: (state) {
           return state is AppUserLoggedIn;

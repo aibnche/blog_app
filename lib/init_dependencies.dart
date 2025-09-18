@@ -38,20 +38,20 @@ Future<void> initDependencies() async {
 }
 
 void _initAuth() {
-  // Data source
+  // Data source (talks to Supabase)
   serviceLocator.registerFactory<AuthRemoteDataSource>( 
     () => AuthRemoteDataSourceImpl(
       supabaseClient: serviceLocator() // References supabase.client
     )
   );
 
-  // Repository
+  // Repository (handles logic)
   serviceLocator.registerFactory<AuthRepository>(
     () => AuthRepositoryImpl(
       remoteDataResource: serviceLocator()
   ));
 
-  // Use cases
+  // Use cases (business logic)
   serviceLocator.registerFactory(
     () => UserSignUp(authRepository: serviceLocator())
   );
@@ -63,7 +63,7 @@ void _initAuth() {
   serviceLocator.registerFactory(
     () => CurrentUser(authRepository: serviceLocator())
   );
-  // Bloc
+  // Bloc (state management)
   // only one instance of AuthBloc throughout the app
   serviceLocator.registerLazySingleton(
     () => AuthBloc(
