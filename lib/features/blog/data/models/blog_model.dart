@@ -57,4 +57,23 @@ class BlogModel extends Blog {
     );
   }
 
+  BlogModel copyWith({
+    String? id, // ? means optional
+    String? content,
+    String? title,
+    String? posterId,
+    String? imageUrl,
+    List<String>? topics,
+    DateTime? updatedAt,
+  }) {
+    return BlogModel(
+      id: id ?? this.id,
+      content: content ?? this.content,
+      title: title ?? this.title,
+      posterId: posterId ?? this.posterId,
+      imageUrl: imageUrl ?? this.imageUrl,
+      topics: topics ?? this.topics,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
 }

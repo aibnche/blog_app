@@ -7,9 +7,11 @@ import 'package:blog/features/auth/domain/usecases/current_user.dart';
 import 'package:blog/features/auth/domain/usecases/user_sign_in.dart';
 import 'package:blog/features/auth/domain/usecases/user_sign_up.dart';
 import 'package:blog/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:blog/features/blog/data/datasources/blog_remote_data_source.dart';
+import 'package:blog/features/blog/data/repositories/blog_repository_impl.dart';
+import 'package:blog/features/blog/domain/usecases/upload_blog.dart';
 import 'package:get_it/get_it.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
 
 /*
 
@@ -25,9 +27,9 @@ final serviceLocator = GetIt.instance;
 
 Future<void> initDependencies() async {
   _initAuth();
-  
+  _initBloc();
   final supabase = await Supabase.initialize(
-    url : AppSecrets.supabaseUrl,
+    url: AppSecrets.supabaseUrl,
     anonKey: AppSecrets.supabaseAnonKey,
   );
 
@@ -39,29 +41,28 @@ Future<void> initDependencies() async {
 
 void _initAuth() {
   // Data source (talks to Supabase)
-  serviceLocator.registerFactory<AuthRemoteDataSource>( 
+  serviceLocator.registerFactory<AuthRemoteDataSource>(
     () => AuthRemoteDataSourceImpl(
-      supabaseClient: serviceLocator() // References supabase.client
-    )
+      supabaseClient: serviceLocator(), // References supabase.client
+    ),
   );
 
   // Repository (handles logic)
   serviceLocator.registerFactory<AuthRepository>(
-    () => AuthRepositoryImpl(
-      remoteDataResource: serviceLocator()
-  ));
+    () => AuthRepositoryImpl(remoteDataResource: serviceLocator()),
+  );
 
   // Use cases (business logic)
   serviceLocator.registerFactory(
-    () => UserSignUp(authRepository: serviceLocator())
+    () => UserSignUp(authRepository: serviceLocator()),
   );
 
   serviceLocator.registerFactory(
-    () => UserSignIn(authRepository: serviceLocator())
+    () => UserSignIn(authRepository: serviceLocator()),
   );
 
   serviceLocator.registerFactory(
-    () => CurrentUser(authRepository: serviceLocator())
+    () => CurrentUser(authRepository: serviceLocator()),
   );
   // Bloc (state management)
   // only one instance of AuthBloc throughout the app
@@ -70,10 +71,21 @@ void _initAuth() {
       userSignUp: serviceLocator(),
       userSignIn: serviceLocator(),
       currentUser: serviceLocator(),
-      appUserCubit: serviceLocator()
-      ),
-      
+      appUserCubit: serviceLocator(),
+    ),
+  );
+}
+
+void _initBloc() {
+  serviceLocator.registerFactory<BlogRemoteDataSource>(
+    () => BlogRemoteDataSourceImpl(supabaseClient: serviceLocator()),
   );
 
+  serviceLocator.registerFactory(
+    () => BlogRepositoryImpl(blogRemoteDataSource: serviceLocator()),
+  );
 
+  serviceLocator.registerFactory(
+    () => UploadBlog(blogRepository: serviceLocator()),
+  );
 }
