@@ -9,7 +9,9 @@ import 'package:blog/features/auth/domain/usecases/user_sign_up.dart';
 import 'package:blog/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:blog/features/blog/data/datasources/blog_remote_data_source.dart';
 import 'package:blog/features/blog/data/repositories/blog_repository_impl.dart';
+import 'package:blog/features/blog/domain/repositories/blog_repository.dart';
 import 'package:blog/features/blog/domain/usecases/upload_blog.dart';
+import 'package:blog/features/blog/presentation/bloc/blog_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -81,11 +83,16 @@ void _initBloc() {
     () => BlogRemoteDataSourceImpl(supabaseClient: serviceLocator()),
   );
 
-  serviceLocator.registerFactory(
+  serviceLocator.registerFactory<BlogRepository>(
     () => BlogRepositoryImpl(blogRemoteDataSource: serviceLocator()),
   );
 
   serviceLocator.registerFactory(
     () => UploadBlog(blogRepository: serviceLocator()),
+  );
+
+  // because we want maintain the state of the blog after navigating
+  serviceLocator.registerLazySingleton(
+    () => BlogBloc(serviceLocator())
   );
 }
