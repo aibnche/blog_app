@@ -27,7 +27,12 @@ class BlogBloc extends Bloc<BlogEvent, BlogState> {
       ));
 
       res.fold(
-        (failure) => emit(BlogFailure(error: failure.message)),
+        (failure) {
+          print("**************************************");
+          print("Blog upload failed: ${failure.message}");
+          print("**************************************");
+          emit(BlogFailure(error: failure.message));
+          },
         (blog) => emit(BlogSuccess(blog: blog))
       );
   }

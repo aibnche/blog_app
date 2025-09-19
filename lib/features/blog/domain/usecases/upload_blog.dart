@@ -14,12 +14,17 @@ class UploadBlog implements UseCase<Blog, UploadBlogParams>{
   
   @override
   Future<Either<Failure, Blog>> call(UploadBlogParams params) async {
-
-    throw UnimplementedError();
+    return await blogRepository.uploadBlog(
+      content: params.content,
+      title: params.title,
+      posterId: params.posterId,
+      image: params.image,
+      topics: params.topics,
+    );
   }
 
 }
-
+//type list<dynamic>  is not subtyoe of type list<String> in type cast
 class UploadBlogParams {
   final String content;
   final String title;

@@ -28,6 +28,7 @@ final SupabaseClient supabaseClient;
                           .insert(blog.toJson()).select();
         return BlogModel.fromJson(blogData.first);
     } catch (e){
+      print("55555555555");
       throw ServerException(e.toString());
     }
   }

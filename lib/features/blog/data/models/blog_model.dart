@@ -50,7 +50,9 @@ class BlogModel extends Blog {
       title: map['title'] as String,
       posterId: map['poster_id'] as String,
       imageUrl: map['image_url'] as String,
-      topics: List<String>.from(map['topics'] as List<String>),
+      topics: (map['topics'] as List<dynamic>)  // Step 1 & 2: get dynamic list from map
+                  .map((e) => e as String)     // Step 3: convert each element to String
+                  .toList(),                    // Step 4: turn iterable back into List<String>
       updatedAt: map['updated_at'] != null
                       ? DateTime.parse(map['updated_at']) 
                       : DateTime.now(),
