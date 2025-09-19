@@ -25,6 +25,15 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
   @ that what explain the behavior of registering "AuthBloc" before "AppUserCubit"
  */
+
+/*
+  -- registerSingleton -> instance throughout the app
+                          (when you need the service right away)
+  -- registerLazySingleton -> instance created when first requested
+                              It creates only one instance of the class (singleton).
+  -- registerFactory -> new instance created each time it's requested
+*/
+
 final serviceLocator = GetIt.instance;
 
 Future<void> initDependencies() async {
