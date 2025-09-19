@@ -8,6 +8,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignInPage extends StatefulWidget {
+  /*
+    @ Purpose: Route to SignInPage
+    @ Returns a MaterialPageRoute that builds the SignInPage widget.
+      + MaterialPageRoute : Provides platform-specific transitions (slide on iOS, fade on Android)
+    @ route() is a static method, Can be called without creating an object: SignInPage.route()
+  */
   static route() => MaterialPageRoute(builder: (context) => const SignInPage());
 
   const SignInPage({super.key});
@@ -23,9 +29,9 @@ class _SignInPageState extends State<SignInPage> {
 
   @override
   void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
-    super.dispose();
+    emailController.dispose(); // Releases memory used by the email TextEditingControlle
+    passwordController.dispose(); // Releases memory used by the password TextEditingController
+    super.dispose(); // Calls the dispose method of the superclass to ensure proper cleanup
   }
 
   @override

@@ -19,6 +19,12 @@ class BlogEditor extends StatelessWidget {
         hintText: hintText
       ),
       maxLines: null, // Allows for multi-line input
+      validator: (value) {
+        if (value!.isEmpty) {
+          return '$hintText is Missoing!';
+        }
+        return null;
+      },
     );
   }
 }

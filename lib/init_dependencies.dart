@@ -27,11 +27,19 @@ import 'package:supabase_flutter/supabase_flutter.dart';
  */
 
 /*
-  -- registerSingleton -> instance throughout the app
-                          (when you need the service right away)
-  -- registerLazySingleton -> instance created when first requested
-                              It creates only one instance of the class (singleton).
-  -- registerFactory -> new instance created each time it's requested
+  RegisterSingleton & RegisterLazySingleton :
+    Ensure there’s only one instance of the class in your whole app
+    The difference is when that instance is created :
+      -- registerSingleton -> instance throughout the app
+                              (when you need the service right away)
+      -- registerLazySingleton -> + instance created when first requested
+                                  + It creates only one instance of the class (singleton).
+                                  + (when you want to delay creation until it’s actually used)
+
+  -- registerFactory -> + new instance created each time it's requested
+                        + registerFactory would create a new BlogBloc instance every time it's requested
+                          This would lose state when navigating between screens
+                          Each screen would start with a fresh, empty state
 */
 
 final serviceLocator = GetIt.instance;
@@ -88,19 +96,27 @@ void _initAuth() {
 }
 
 void _initBloc() {
+  // Data source
   serviceLocator.registerFactory<BlogRemoteDataSource>(
     () => BlogRemoteDataSourceImpl(supabaseClient: serviceLocator()),
   );
 
+  // Repository
   serviceLocator.registerFactory<BlogRepository>(
     () => BlogRepositoryImpl(blogRemoteDataSource: serviceLocator()),
   );
 
+  // Usecases
   serviceLocator.registerFactory(
     () => UploadBlog(blogRepository: serviceLocator()),
   );
 
-  // because we want maintain the state of the blog after navigating
+  // Bloc
+  /*
+    because we want maintain the state of the blog after navigating
+    + Only one BlogBloc instance exists throughout the entire app lifecycle
+    + When you navigate between screens, the same BlogBloc instance is used
+  */
   serviceLocator.registerLazySingleton(
     () => BlogBloc(serviceLocator())
   );
