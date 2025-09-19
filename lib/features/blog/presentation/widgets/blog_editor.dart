@@ -21,7 +21,7 @@ class BlogEditor extends StatelessWidget {
       maxLines: null, // Allows for multi-line input
       validator: (value) {
         if (value!.isEmpty) {
-          return '$hintText is Missoing!';
+          return '$hintText is Missing!';
         }
         return null;
       },
