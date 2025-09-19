@@ -16,3 +16,8 @@ final class BlogSuccess extends BlogState {
   final Blog blog;
   BlogSuccess({required this.blog});
 }
+
+final class BlogsSuccess extends BlogState {
+  final List<Blog> blogs;
+  BlogsSuccess(this.blogs);
+}

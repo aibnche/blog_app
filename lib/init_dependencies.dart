@@ -10,6 +10,7 @@ import 'package:blog/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:blog/features/blog/data/datasources/blog_remote_data_source.dart';
 import 'package:blog/features/blog/data/repositories/blog_repository_impl.dart';
 import 'package:blog/features/blog/domain/repositories/blog_repository.dart';
+import 'package:blog/features/blog/domain/usecases/get_all_blogs.dart';
 import 'package:blog/features/blog/domain/usecases/upload_blog.dart';
 import 'package:blog/features/blog/presentation/bloc/blog_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -111,6 +112,10 @@ void _initBloc() {
     () => UploadBlog(blogRepository: serviceLocator()),
   );
 
+  serviceLocator.registerFactory(
+    () => GetAllBlogs(blogRepository: serviceLocator()),
+  );
+
   // Bloc
   /*
     because we want maintain the state of the blog after navigating
@@ -118,6 +123,9 @@ void _initBloc() {
     + When you navigate between screens, the same BlogBloc instance is used
   */
   serviceLocator.registerLazySingleton(
-    () => BlogBloc(serviceLocator())
+    () => BlogBloc(
+      uploadBlog: serviceLocator(),
+      getAllBlogs: serviceLocator(),
+    )
   );
 }

@@ -24,6 +24,7 @@ class UploadBlog implements UseCase<Blog, UploadBlogParams>{
   }
 
 }
+
 //type list<dynamic>  is not subtyoe of type list<String> in type cast
 class UploadBlogParams {
   final String content;
