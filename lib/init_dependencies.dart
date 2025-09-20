@@ -52,6 +52,13 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 final serviceLocator = GetIt.instance;
 
 Future<void> initDependencies() async {
+  // set path for Hive - only for mobile platforms
+  if (!kIsWeb) {
+    final directory = await getApplicationCacheDirectory();
+    Hive.init(directory.path);
+  }
+  await Hive.openBox('blogs');
+
   _initAuth();
   _initBloc();
   final supabase = await Supabase.initialize(
@@ -59,17 +66,10 @@ Future<void> initDependencies() async {
     anonKey: AppSecrets.supabaseAnonKey,
   );
 
-  // set path for Hive - only for mobile platforms
-  if (!kIsWeb) {
-    final directory = await getApplicationCacheDirectory();
-    Hive.init(directory.path);
-  }
-  (await getApplicationCacheDirectory()).path;
-  await Hive.openBox('blogs');
 
   serviceLocator.registerLazySingleton(() => supabase.client);
 
-  serviceLocator.registerFactory(
+  serviceLocator.registerLazySingleton(
     () => Hive.box('blogs')
   );
 

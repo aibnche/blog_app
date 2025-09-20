@@ -17,8 +17,9 @@ class BlogLocalDataSourceImpl implements BlogLocalDataSource {
   void uploadLocalBlogs({required List<BlogModel> blogs}) {
     box.clear();
     
-      for (int i = 0; i < blogs.length; i++) {
-        box.put(i.toString(), blogs[i].toJson());
+      final blogsChunk = blogs.take(40).toList();
+      for (int i = 0; i < blogsChunk.length; i++) {
+        box.put(i.toString(), blogsChunk[i].toJson());
       }
     
   }
@@ -32,7 +33,7 @@ class BlogLocalDataSourceImpl implements BlogLocalDataSource {
       for (int i = 0; i < box.length; i++) {
         final blog = box.get(i.toString());
         if (blog != null) {
-        blogs.add(BlogModel.fromJson(Map<String, dynamic>.from(blog)));
+          blogs.add(BlogModel.fromJson(Map<String, dynamic>.from(blog)));
         }
       }
     

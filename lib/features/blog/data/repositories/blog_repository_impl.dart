@@ -60,10 +60,10 @@ class BlogRepositoryImpl implements BlogRepository {
       try {
         if (! await (connectionChecker.isConnected)) {
           final blogs = blogLocalDataSource.loadBlogs();
-          print("*******************;;;;;*****************");
-          print(blogs[0].toJson());
-          print("*******************;;;;;*****************");
-          Right(blogs);
+          // print("*******************;;;;;*****************");
+          // print(blogs[0].toJson());
+          // print("*******************;;;;;*****************");
+          return Right(blogs);
         }
         final blogs = await blogRemoteDataSource.getAllBlogs();
         blogLocalDataSource.uploadLocalBlogs(blogs: blogs);
