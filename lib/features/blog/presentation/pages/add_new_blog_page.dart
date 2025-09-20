@@ -61,7 +61,7 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
       body: BlocConsumer<BlogBloc, BlogState>(
         listener: (context, state) {
           if (state is BlogFailure) {
-            showSnackBar(context, state.error);
+            showSnackBar(context, state.error, isError: true);
           } else if (state is BlogSuccess) {
             showSnackBar(context, 'Blog uploaded successfully!');
             Navigator.pushAndRemoveUntil(context, BlogPage.route(), (route) => false);
@@ -119,7 +119,6 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
       // get the posterId from AppUserCubit
       final posterId =
           (context.read<AppUserCubit>().state as AppUserLoggedIn).user.id;
-
       context.read<BlogBloc>().add(
         BlogUpload(
           title: titleController.text.trim(),

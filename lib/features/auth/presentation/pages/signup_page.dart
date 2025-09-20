@@ -40,7 +40,7 @@ class _SignUpPageState extends State<SignUpPage> {
         child: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
             if (state is AuthFailure) {
-              showSnackBar(context, state.message);
+              showSnackBar(context, state.message, isError: true);
             }
           },
           builder: (context, state) {
