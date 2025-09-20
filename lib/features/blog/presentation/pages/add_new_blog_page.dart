@@ -78,88 +78,13 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
                 key: formKey,
                 child: Column(
                   children: [
-                    image != null
-                        ? SizedBox(
-                            width: double.infinity,
-                            height: 150,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image.file(image!, fit: BoxFit.cover),
-                            ),
-                          )
-                        : GestureDetector(
-                            onTap: () {
-                              selectImage();
-                            },
-                            child: DottedBorder(
-                              options: RoundedRectDottedBorderOptions(
-                                color: AppPallete.borderColor,
-                                radius: Radius.circular(10),
-                                dashPattern: const [10, 5],
-                                strokeWidth: 2,
-                                strokeCap: StrokeCap.round,
-                              ),
-
-                              child: Container(
-                                height: 150,
-                                width: double.infinity,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(Icons.folder_open, size: 40),
-                                    SizedBox(height: 15),
-                                    Text(
-                                      'Select Your Image',
-                                      style: TextStyle(fontSize: 15),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-
+                    _buildImagePicker(),
                     SizedBox(height: 40),
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
                         children:
-                            [
-                                  'Technology',
-                                  'Science',
-                                  'Art',
-                                  'Education',
-                                  'Health',
-                                  'Travel',
-                                ]
-                                .map(
-                                  (e) => Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        if (selectedTopics.contains(e)) {
-                                          selectedTopics.remove(e);
-                                        } else {
-                                          selectedTopics.add(e);
-                                        }
-                                        setState(() {}); // Refresh UI
-                                      },
-                                      child: Chip(
-                                        label: Text(e),
-                                        color: selectedTopics.contains(e)
-                                            ? const WidgetStatePropertyAll(
-                                                AppPallete.gradient2,
-                                              )
-                                            : null,
-                                        side: selectedTopics.contains(e)
-                                            ? null
-                                            : const BorderSide(
-                                                color: AppPallete.borderColor,
-                                              ),
-                                      ),
-                                    ),
-                                  ),
-                                )
-                                .toList(),
+                            _categories()
                       ),
                     ),
                     SizedBox(height: 20),
@@ -182,6 +107,11 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
     );
   }
 
+
+
+
+
+
   void uploadBlogFn(BuildContext context) {
     if (formKey.currentState!.validate() &&
         selectedTopics.isNotEmpty &&
@@ -201,4 +131,90 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
       );
     }
   }
+
+
+  Widget _buildImagePicker() {
+    if (image != null) {
+      return SizedBox(
+        width: double.infinity,
+        height: 150,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: Image.file(image!, fit: BoxFit.cover),
+        ),
+      );
+    }
+
+    return GestureDetector(
+      onTap: selectImage,
+      child: DottedBorder(
+        options: RoundedRectDottedBorderOptions(
+          color: AppPallete.borderColor,
+          radius: Radius.circular(10),
+          dashPattern: const [10, 5],
+          strokeWidth: 2,
+          strokeCap: StrokeCap.round,
+        ),
+        child: Container(
+          height: 150,
+          width: double.infinity,
+          child: const Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.folder_open, size: 40),
+              SizedBox(height: 15),
+              Text(
+                'Select Your Image',
+                style: TextStyle(fontSize: 15),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+List<Widget> _categories ()
+{
+  return [
+    'Technology',
+    'Science',
+    'Art',
+    'Education',
+    'Health',
+    'Travel',
+  ].map(
+      (e) => Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: GestureDetector(
+          onTap: () {
+            if (selectedTopics.contains(e)) {
+              selectedTopics.remove(e);
+            } else {
+              selectedTopics.add(e);
+            }
+            setState(() {}); // Refresh UI
+          },
+          child: Chip(
+            label: Text(e),
+            color: selectedTopics.contains(e)
+                ? const WidgetStatePropertyAll(
+                    AppPallete.gradient2,
+                  )
+                : null,
+            side: selectedTopics.contains(e)
+                ? null
+                : const BorderSide(
+                    color: AppPallete.borderColor,
+                  ),
+          ),
+        ),
+      ),
+      )
+      .toList();
 }
+
+}
+
+
+

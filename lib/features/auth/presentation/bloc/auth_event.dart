@@ -1,5 +1,9 @@
 part of 'auth_bloc.dart';
 
+
+// event tell us what to do, state tell us the result of that action, 
+// so events are inputs and states are outputs
+
 @immutable
 sealed class AuthEvent {}
 

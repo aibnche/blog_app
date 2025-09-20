@@ -1,6 +1,10 @@
+import 'package:blog/core/common/widgets/loader.dart';
+import 'package:blog/core/theme/app_pallete.dart';
 import 'package:blog/core/utils/show_snackbar.dart';
 import 'package:blog/features/blog/presentation/bloc/blog_bloc.dart';
 import 'package:blog/features/blog/presentation/pages/add_new_blog_page.dart';
+import 'package:blog/features/blog/presentation/pages/blog_viewer_page.dart';
+import 'package:blog/features/blog/presentation/widgets/blog_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -50,16 +54,24 @@ class _BlogPageState extends State<BlogPage> {
         },
         builder: (context, state) {
           if (state is BlogLoading){
-            
+            return const Loader();
           }
-          return ListView.builder(
-            itemCount: 10,
-            itemBuilder: (context, index) {
-              return ListTile(
-                title: Text('Blog Title'),
-                subtitle: Text('Blog Content'),
-              );
-          });
+          if (state is BlogsSuccess) {
+            return ListView.builder(
+              itemCount: state.blogs.length,
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(context, BlogViewPage.route(state.blogs[index]));
+                  },
+                  child: BlogCard(
+                      blog: state.blogs[index],
+                      color: const Color.fromARGB(255, 93, 138, 245)
+                      ),
+                );
+            });
+          }
+          return const SizedBox();
         },
       ),
     );

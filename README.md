@@ -1,6 +1,7 @@
 
 
-profile Query :
+----------------Profile--Query--------------------
+
 
 -- Create a table for public profiles
 create table profiles (
@@ -50,7 +51,7 @@ create trigger on_auth_user_created
 
 
 
-----------------Blogs----------------------
+----------------Blogs--Query--------------------
 
 
 
@@ -96,3 +97,19 @@ create policy "Anyone can upload a blog image." on storage.objects
 
 create policy "Users can update their own blog image." on storage.objects
   for update using ((select auth.uid()) = owner) with check (bucket_id = 'blog_images');
+
+
+
+
+
+
+--------------------------------------------
+
+In your code, the Bloc (AuthBloc) is responsible for handling the login process and user authentication logic.
+After a successful login, the Bloc updates the Cubit (AppUserCubit) with the user data.
+The Cubit (AppUserCubit) then stores and manages the user state (such as logged-in user info) for the rest of the app.
+
+Summary:
+
+Bloc (AuthBloc): Handles login/auth events and logic.
+Cubit (AppUserCubit): Stores user data and exposes it to the UI after login.
