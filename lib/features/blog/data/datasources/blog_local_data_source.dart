@@ -8,10 +8,11 @@ abstract interface class BlogLocalDataSource {
 
 // concrete implementation
 class BlogLocalDataSourceImpl implements BlogLocalDataSource {
-  final List<BlogModel> _localBlogs = [];
   final Box box;
 
   BlogLocalDataSourceImpl(this.box);
+
+  // upload blogs to local storage
   @override
   void uploadLocalBlogs({required List<BlogModel> blogs}) {
     box.clear();
@@ -22,6 +23,7 @@ class BlogLocalDataSourceImpl implements BlogLocalDataSource {
     });
   }
 
+  // load blogs from local storage
   @override
   List<BlogModel> loadBlogs() {
     List<BlogModel> blogs = [];
