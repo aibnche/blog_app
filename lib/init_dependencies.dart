@@ -15,6 +15,7 @@ import 'package:blog/features/blog/domain/repositories/blog_repository.dart';
 import 'package:blog/features/blog/domain/usecases/get_all_blogs.dart';
 import 'package:blog/features/blog/domain/usecases/upload_blog.dart';
 import 'package:blog/features/blog/presentation/bloc/blog_bloc.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
@@ -58,13 +59,18 @@ Future<void> initDependencies() async {
     anonKey: AppSecrets.supabaseAnonKey,
   );
 
-  // set path for Hive
-  Hive.defaultDirectory = (await getApplicationCacheDirectory()).path;
+  // set path for Hive - only for mobile platforms
+  if (!kIsWeb) {
+    final directory = await getApplicationCacheDirectory();
+    Hive.init(directory.path);
+  }
+  (await getApplicationCacheDirectory()).path;
+  await Hive.openBox('blogs');
 
   serviceLocator.registerLazySingleton(() => supabase.client);
 
   serviceLocator.registerFactory(
-    () => Hive.box(name: 'blogs')
+    () => Hive.box('blogs')
   );
 
   serviceLocator.registerFactory(() => InternetConnection());

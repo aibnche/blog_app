@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:blog/features/blog/data/models/blog_model.dart';
 import 'package:blog/features/blog/domain/entities/blog.dart';
 import 'package:blog/features/blog/domain/usecases/get_all_blogs.dart';
 import 'package:blog/features/blog/domain/usecases/upload_blog.dart';
@@ -21,12 +22,13 @@ class BlogBloc extends Bloc<BlogEvent, BlogState> {
     _getAllBlogs = getAllBlogs, 
     super(BlogInitial())
     {
-    on<BlogEvent>((event, emit) {emit(BlogLoading());});
+    // on<BlogEvent>((event, emit) {emit(BlogLoading());});
     on<BlogUpload>(_onBlogUpload);
     on<GetAllBlogsEvent>(_onGetAllBlogs);
   }
 
   void _onBlogUpload(BlogUpload event, Emitter<BlogState> emit) async {
+    emit(BlogLoading()); // Emit loading only for upload
     final res = await _uploadBlog(
       UploadBlogParams(
         content: event.content,
@@ -43,11 +45,17 @@ class BlogBloc extends Bloc<BlogEvent, BlogState> {
   }
 
   void _onGetAllBlogs(GetAllBlogsEvent event,Emitter<BlogState> emit) async {
+    emit(BlogLoading()); // Emit loading only for upload
     final blogs = await _getAllBlogs(NoParams());
-
+    
     blogs.fold(
       (failure) => emit(BlogFailure(error: failure.message)),
-      (blogs) => emit(BlogsSuccess(blogs))
+      (blogs) {
+        print("*******************;11111;;;;*****************");
+        BlogModel b = blogs[0] as BlogModel;
+        print(b.toJson());
+    print("*******************;11111;;;;*****************");
+        emit(BlogsSuccess(blogs));}
     );
   }
 }

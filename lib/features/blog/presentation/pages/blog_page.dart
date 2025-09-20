@@ -65,6 +65,7 @@ class _BlogPageState extends State<BlogPage> {
                     Navigator.push(context, BlogViewPage.route(state.blogs[index]));
                   },
                   child: BlogCard(
+                      key: ValueKey(state.blogs[index].id),
                       blog: state.blogs[index],
                       color: const Color.fromARGB(255, 93, 138, 245)
                       ),
