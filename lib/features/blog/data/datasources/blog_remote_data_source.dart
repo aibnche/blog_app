@@ -29,6 +29,8 @@ final SupabaseClient supabaseClient;
       return blogsData.map((blog) => BlogModel.fromJson(blog).copyWith(
         posterName: blog['profiles']['name']
       )).toList();
+    } on PostgrestException catch (e) {
+      throw ServerException(e.message);
     } catch (e) {
       throw ServerException(e.toString());
     }
@@ -41,7 +43,10 @@ final SupabaseClient supabaseClient;
         final blogData = await supabaseClient.from('blogs')
                           .insert(blog.toJson()).select();
         return BlogModel.fromJson(blogData.first);
-    } catch (e){
+    } on PostgrestException catch (e) {
+      throw ServerException(e.message);
+    }
+    catch (e){
       throw ServerException(e.toString());
     }
   }
@@ -58,6 +63,8 @@ final SupabaseClient supabaseClient;
           .from('blog_images')
           .getPublicUrl(blog.id);
 
+    } on StorageException catch (e) {
+      throw ServerException(e.message);
     } catch (e) {
       throw ServerException(e.toString());
     }

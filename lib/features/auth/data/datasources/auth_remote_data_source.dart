@@ -53,7 +53,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           // debugPrint("Session: ${response.session?.toJson()}"); // tokens
           // debugPrint("user3333333 =======================");
         return UserModel.fromJson(response.user!.toJson());
-    } catch(e){
+    } on AuthException catch (e) {
+        throw ServerException(e.message);
+    } 
+    catch(e){
       throw ServerException(e.toString());
     }
   }
@@ -77,7 +80,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         
 
         return UserModel.fromJson(response.user!.toJson());
-    } catch(e){
+    } on AuthException catch (e) {
+      throw ServerException(e.message);
+    }  
+    catch(e){
       throw ServerException(e.toString());
     }
   }
@@ -94,6 +100,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       return UserModel.fromJson(user.first).copyWith(
         email: currentUserSession!.user.email,
       );
+    } on AuthException catch (e) {
+        throw ServerException(e.message);
     } catch(e){
       throw ServerException(e.toString());
     }

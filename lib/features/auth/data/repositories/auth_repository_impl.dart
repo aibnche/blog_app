@@ -71,8 +71,6 @@ class AuthRepositoryImpl implements AuthRepository{
         return Left(Failure('User not logged in'));
       }
       return Right(user);
-    } on supa.AuthException catch(e){
-      return Left(Failure(e.toString()));
     } on ServerException catch(e){
       return Left(Failure(e.toString()));
     }
@@ -86,9 +84,6 @@ class AuthRepositoryImpl implements AuthRepository{
       }
       final user = await fn();
       return Right(user);
-    }
-    on supa.AuthException catch (e) {
-      return Left(Failure(e.message));
     }
     on ServerException catch (e) {
       return Left(Failure(e.message));
