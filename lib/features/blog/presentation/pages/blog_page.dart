@@ -47,6 +47,8 @@ class _BlogPageState extends State<BlogPage> {
         ],
       ),
       body: BlocConsumer<BlogBloc, BlogState>(
+        // listener runs in response to state changes, allowing side effects like showing SnackBars
+        // it runs once the specified state is emitted
         listener: (context, state) {
           if (state is BlogFailure) {
             showSnackBar(context, state.error, isError: true);
