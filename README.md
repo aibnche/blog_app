@@ -151,33 +151,34 @@ create policy "Users can update own profile." on profiles
 
 -- This trigger automatically creates a profile entry when a new user signs up via Supabase Auth.
 -- See https://supabase.com/docs/guides/auth/managing-user-data#using-triggers for more details.
-create function public.handle_new_user()
+create or replace function public.handle_new_user()
 returns trigger
 set search_path = ''
+language plpgsql
+security definer
 as $$
-
 declare
   raw_role text;
 begin
   -- Extract role from signup metadata
   raw_role := new.raw_user_meta_data->>'role';
 
-begin
   insert into public.profiles (id, first_name, last_name, role, phone)
-  values (new.id,
-          new.raw_user_meta_data->>'first_name',
-          new.raw_user_meta_data->>'last_name',
-          case
-            when raw_role in ('publisher', 'advertiser') then raw_role
-            else 'publisher'  -- fallback if missing/invalid
-          end,
-          new.phone
-        );
+  values (
+    new.id,
+    new.raw_user_meta_data->>'first_name',
+    new.raw_user_meta_data->>'last_name',
+    case
+      when raw_role in ('publisher', 'advertiser') then raw_role
+      else 'publisher'  -- fallback if missing/invalid
+    end,
+    new.phone
+  );
+
   return new;
 end;
+$$;
 
-
-$$ language plpgsql security definer;
-create trigger on_auth_user_created
+create or replace trigger on_auth_user_created
   after insert on auth.users
   for each row execute procedure public.handle_new_user();
