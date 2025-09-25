@@ -19,6 +19,7 @@ class AppTheme {
       backgroundColor: AppPallete.backgroundColor
     ),
     
+    // chip it is a small widget that can represent an attribute, text, entity, or action.
     chipTheme: const ChipThemeData(
       color: WidgetStatePropertyAll(AppPallete.backgroundColor),
       side: BorderSide.none
