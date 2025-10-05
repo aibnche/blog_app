@@ -54,6 +54,12 @@ class _MyAppState extends State<MyApp> {
           @ read, gets the AuthBloc instance that is fully constructed with all the needed properties.
           @ add, Adds an event to the AuthBloc
     */
+
+    /*
+      @ context.read<AuthBloc>() :Get access to the AuthBloc instance so I can talk to it.
+      @ add() : Send an event to the AuthBloc to trigger some action.
+      @ AuthIsUserLoggedIn() : The specific event I'm sending to check if the user is logged in.
+    */
     context.read<AuthBloc>().add(AuthIsUserLoggedIn());
     /**
      * @  initState(): This runs when the app starts to automatically,

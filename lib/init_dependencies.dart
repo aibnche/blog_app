@@ -52,6 +52,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 final serviceLocator = GetIt.instance;
 
 Future<void> initDependencies() async {
+  // Hive is used for local storage
   // set path for Hive - only for mobile platforms
   if (!kIsWeb) {
     final directory = await getApplicationCacheDirectory();
